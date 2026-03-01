@@ -1,0 +1,285 @@
+:root {
+    --bg-color: #0d0d0d;
+    --accent-color: #ffffff;
+    --text-color: #f2f2f2;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --accent-glow: 0 0 20px rgba(255, 255, 255, 0.2);
+    --transition-speed: 0.4s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Outfit', sans-serif;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Background Effects */
+.background-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, #1a1a1a 0%, #0d0d0d 100%);
+    z-index: -2;
+}
+
+.noise {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.03;
+    background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Main Container */
+.timer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    transition: all var(--transition-speed) ease;
+}
+
+/* Landscape Specifics */
+@media (orientation: landscape) {
+    .timer-text {
+        font-size: 25vw;
+        /* Extremely large for landscape */
+        line-height: 0.8;
+    }
+}
+
+@media (orientation: portrait) {
+    .timer-text {
+        font-size: 20vw;
+    }
+
+    .timer-container::after {
+        content: "Please rotate to landscape";
+        position: absolute;
+        bottom: 20px;
+        font-size: 0.8rem;
+        opacity: 0.5;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+}
+
+.timer-text {
+    font-weight: 100;
+    letter-spacing: -0.05em;
+    cursor: default;
+    user-select: none;
+    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    text-shadow: var(--accent-glow);
+}
+
+/* Styles for Customization */
+.timer-text.blurred {
+    filter: blur(8px);
+    opacity: 0.6;
+}
+
+.timer-text.outlined {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--text-color);
+}
+
+/* Controls */
+.controls {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1.5rem;
+    opacity: 0.2;
+    transition: opacity var(--transition-speed) ease;
+}
+
+.timer-container:hover .controls,
+.timer-container:active .controls {
+    opacity: 1;
+}
+
+.control-btn {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid transparent;
+}
+
+.control-btn:hover {
+    border-bottom: 1px solid var(--accent-color);
+    letter-spacing: 4px;
+}
+
+.icon-btn {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Settings Panel */
+.settings-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 400px;
+    height: 100%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-left: 1px solid var(--glass-border);
+    z-index: 100;
+    transition: transform var(--transition-speed) cubic-bezier(0.19, 1, 0.22, 1);
+    padding: 3rem 2rem;
+    overflow-y: auto;
+}
+
+.settings-panel.hidden {
+    transform: translateX(100%);
+}
+
+.panel-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.setting-group h3 {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.timer-inputs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.timer-inputs input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    color: white;
+    width: 70px;
+    padding: 10px;
+    text-align: center;
+    font-size: 1.2rem;
+    border-radius: 4px;
+}
+
+.font-options,
+.look-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+}
+
+.font-btn,
+.look-btn,
+.apply-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    color: white;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.8rem;
+    border-radius: 4px;
+}
+
+.font-btn:hover,
+.look-btn:hover,
+.apply-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.font-btn.active,
+.look-btn.active {
+    background: white;
+    color: black;
+}
+
+.apply-btn {
+    width: 100%;
+    background: white;
+    color: black;
+    font-weight: 700;
+    margin-top: 0.5rem;
+}
+
+.close-btn {
+    background: none;
+    border: 1px solid var(--text-color);
+    color: var(--text-color);
+    padding: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    margin-top: 1rem;
+    border-radius: 4px;
+}
+
+/* Animations */
+@keyframes bg-pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+}
+
+.background-overlay {
+    /* ... existing properties ... */
+    animation: bg-pulse 10s ease-in-out infinite;
+}
+
+.timer-text.counting {
+    animation: none;
+}
